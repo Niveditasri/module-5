@@ -1,0 +1,21 @@
+script.js
+$(function () { // Ensure DOM is fully loaded
+    $("#specials-tile").on("click", function (event) {
+        event.preventDefault();
+        
+        // STEP 1: Fetch the list of categories dynamically
+        $.getJSON("https://davids-restaurant.herokuapp.com/categories.json", function (categories) {
+            
+            // STEP 2: Select a random category
+            var randomIndex = Math.floor(Math.random() * categories.length);
+            var randomCategoryShortName = categories[randomIndex].short_name;
+
+            // STEP 3: Update the specials tile link dynamically
+            var specialsLink = $("#specials-tile a");
+            specialsLink.attr("onclick", "$dc.loadMenuItems('" + randomCategoryShortName + "');");
+
+            // STEP 4: Trigger the click event to load the category page
+            specialsLink[0].click();
+        });
+    });
+});
